@@ -4,7 +4,7 @@
 public class main_ratslam 
 {
 	// My Constants
-	static final double PI = 3.14159;
+	static final double PI = Math.PI;
 
 	// Pose cell activity network constraints
 	static int PC_DIM_XY = 61;
@@ -17,8 +17,8 @@ public class main_ratslam
 	static int PC_W_I_VAR = 2;
 
 	// Posecell excitation and inhibition 3D weight matrices
-	double[][][] PC_W_EXCITE = create_posecell_weights(PC_W_E_DIM, PC_W_E_VAR);
-	double[][][] PC_W_INHIB = create_posecell_weights(PC_W_I_DIM, PC_W_I_VAR);
+	Weights PC_W_EXCITE = new Weights(PC_W_E_DIM, PC_W_E_VAR);
+	Weights PC_W_INHIB = new Weights(PC_W_I_DIM, PC_W_I_VAR);
 
 	// Convenience constants
 	double PC_W_E_DIM_HALF = Math.floor(PC_W_E_DIM / 2);
@@ -101,42 +101,42 @@ public class main_ratslam
 	}
 
 
-
-	public double[][][] create_posecell_weights(int dim, int var)
-	{
-		double dim_center = Math.floor(dim/2.0) + 1;
-
-		// Creates a 3D normal distribution based on given dimension and variance
-		double[][][] weight = new double[dim][dim][dim];
-		double a = Math.sqrt(2 * PI);
-		double total = 0;
-		for (int x = 0; x < dim; x++)
-		{
-			for (int y = 0; y < dim; y++)
-			{
-				for (int z = 0; z < dim; z++)
-				{
-					double b = -1 * (x - dim_center)*(x-dim_center);
-					double c = (y - dim_center) * (y - dim_center);
-					double d = (z - dim_center) * (z - dim_center);
-					weight[x][y][z] = 1/(var * a * Math.exp((b - c - d) / (2 * (var * var))));
-					total += weight[x][y][z];
-				}
-			}
-		}
-
-		for (int x = 0; x < dim; x++)
-		{
-			for (int y = 0; y < dim; y++)
-			{
-				for (int z = 0; z < dim; z++)
-				{
-					weight[x][y][z] = weight[x][y][z]/total;
-				}
-			}
-		}	
-		return weight;
-	}
+	// CLASS CREATED FOR BELOW METHOD
+//	public double[][][] create_posecell_weights(int dim, int var)
+//	{
+//		double dim_center = Math.floor(dim/2.0) + 1;
+//
+//		// Creates a 3D normal distribution based on given dimension and variance
+//		double[][][] weight = new double[dim][dim][dim];
+//		double a = Math.sqrt(2 * PI);
+//		double total = 0;
+//		for (int x = 0; x < dim; x++)
+//		{
+//			for (int y = 0; y < dim; y++)
+//			{
+//				for (int z = 0; z < dim; z++)
+//				{
+//					double b = -1 * (x - dim_center)*(x-dim_center);
+//					double c = (y - dim_center) * (y - dim_center);
+//					double d = (z - dim_center) * (z - dim_center);
+//					weight[x][y][z] = 1/(var * a * Math.exp((b - c - d) / (2 * (var * var))));
+//					total += weight[x][y][z];
+//				}
+//			}
+//		}
+//
+//		for (int x = 0; x < dim; x++)
+//		{
+//			for (int y = 0; y < dim; y++)
+//			{
+//				for (int z = 0; z < dim; z++)
+//				{
+//					weight[x][y][z] = weight[x][y][z]/total;
+//				}
+//			}
+//		}	
+//		return weight;
+//	}
 
 
 	public void visual_odometry(int raw_image[][])
@@ -376,6 +376,25 @@ public class main_ratslam
 						// Posecells[x][y][dir_pc] =  
 					}
 				}
+			}
+			else if (dir == PI / 2)
+			{
+				
+			}
+			else if (dir == PI)
+			{
+				
+			}
+			else if (dir == 3 * PI / 2)
+			{
+				
+			}
+			else
+			{
+				// rot90 function
+				double pca90 = 0;
+				double dir90 = dir - Math.floor(dir * 2 / PI) * (PI / 2);
+				
 			}
 		}
 		
