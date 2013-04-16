@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-
 // VT called in many parts of code (main and Visual_Template
 
 public class VT 
@@ -10,13 +8,13 @@ public class VT
 	int x_pc;
 	int y_pc;
 	int th_pc;
-	int[] exps;
+	Experience[] exps;
 	int[][] template;
 	//Experience exps = new Experience();
 	// find out if 'id' is a keyword 
 	int id = 0;
 	
-	public VT(int numvts, int[][] img_sums, double decay, int xPc, int yPc, int thPc, int f, int numE, int[] exp)
+	public VT(int numvts, int[][] img_sums, double decay, int xPc, int yPc, int thPc, int f, int numE, Experience[] exp)
 	{
 		id = numvts;
 		template = img_sums;

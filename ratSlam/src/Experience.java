@@ -1,24 +1,28 @@
-// Used to setup exp
-// Similar to VT
+// Used to setup experience map
 
 public class Experience 
 {
 	static final double PI = Math.PI;
 	
-	// initial arguments
-	int x_pc;
-	int y_pc;
-	int th_pc;
-	int x_m;
-	int y_m;
+	// Variables
+	double x_pc;
+	double y_pc;
+	double th_pc;
+	double x_m;
+	double y_m;
 	double facing_rad;
 	int vt_id;
 	int numlinks;
-	int[] links;
-	
-	
-	public Experience(int xPc, int yPc, int thPc, int xM, int yM, double facRad, int vtId, int nLinks, int[] l)
+	Link[] links;
+	int id;
+	public Experience()
 	{
+		
+	}
+	
+	public Experience(int id, double xPc, double yPc, double thPc, double xM, double yM, double facRad, int vtId, int nLinks, Link[] l)
+	{
+		this.id = id;
 		x_pc = xPc;
 		y_pc = yPc;
 		th_pc = thPc;

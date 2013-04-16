@@ -1,11 +1,11 @@
-import java.lang.reflect.Array;
 
 // This class creates the visual template, taking the image 
 // and breaking it down into a two-dimensional array
+
 public class Visual_Template 
 {
-	int IMAGE_Y_SIZE = 100;		// Should be size of viddata
-	int IMAGE_X_SIZE = 100;		// Should be size of viddata
+	int IMAGE_Y_SIZE = 100;		
+	int IMAGE_X_SIZE = 100;		
 
 	int numvts = 1;
 	int prev_vt_id = 1;
@@ -18,14 +18,21 @@ public class Visual_Template
 	int[] IMAGE_VT_Y_RANGE = setRange(IMAGE_Y_SIZE);
 	int[] IMAGE_VT_X_RANGE = setRange(IMAGE_X_SIZE);
 
-	public Visual_Template(int raw_image[][], int x, int y, int th)
+	int[][] sub_image = {IMAGE_VT_Y_RANGE,IMAGE_VT_X_RANGE};
+	int x_val, y_val, th_val;
+	int[][] raw_image = null;
+	int[] new_vt_history = null;
+	
+	public Visual_Template(int raw_img[][], int x, int y, int th)
 	{
-
+		x_val = 0;
+		y_val = 0;
+		th_val = 0;
+		raw_image = raw_img;
 	}
 
-	public void visual_template(int raw_image[][], int x, int y, int th)
+	public void visual_template()
 	{
-		int [][] sub_image = {IMAGE_VT_Y_RANGE,IMAGE_VT_X_RANGE};
 		int vt_id = 0;
 
 		// normalized intensity sums
@@ -57,8 +64,9 @@ public class Visual_Template
 		}
 
 		// initialize minOffset and minDif
-		int[] minOffset = {};
-		int[] minDif = {};
+		// DO THIS!!!!
+		//int[] minOffset = new int [numvts];
+		//int[] minDif = new int [numvts];
 
 		// change parameters
 		VT[] vt = new VT[]{};
@@ -73,20 +81,26 @@ public class Visual_Template
 			{
 				vt[k].template_decay = 0;
 			}
-			// [min_offset[k], min_diff[k]] = rs_compare_segments(image_x_sums, vt[k].template, VT_SHIFT_MATCH, size(image_x_sums,2) 
+			// [min_offset[k], min_diff[k]] = rs_compare_segments(image_x_sums, vt[k].template, VT_SHIFT_MATCH, size(image_x_sums,2)
+			Segments segment = new Segments(image_x_sums[1], vt[k].template[1], (int)VT_SHIFT_MATCH, image_x_sums[2].length);
+			double[] min_vals = segment.compare_segments();
 		}
 
 		// NEED :: [diff, diff_id] = min(min_diff)
-		// for now:
+		
+//		double[][] a_diff = new double[min_vals[k]][diff_id] ;
+//		a_diff = min[min_diff];
+
+		// for now
 		int diff = 1;
 		int diff_id = 1;
-
+		
 		//if this intensity template doesn't match any of the existing templates,
 		// then create a new template
 		if ((diff * image_x_sums[2].length) > VT_MATCH_THRESHOLD)
 		{
 			numvts++;
-			vt[numvts] = new VT(numvts, image_x_sums, VT_ACTIVE_DECAY, x, y, th, 1, 0, new int[1]);
+			vt[numvts] = new VT(numvts, image_x_sums, VT_ACTIVE_DECAY, x_val, y_val, th_val, 1, 0, new Experience[1]);
 			vt_id = numvts;
 		}
 		else
@@ -99,10 +113,20 @@ public class Visual_Template
 			}
 		}
 		
-		// vt_history = [vt_history; vt_id] 
+		// copy vt_history and add vt_id to it
+		int[] new_vt_hist = new int[vt_history.length + 1];
+		for (int i = 0; i < (new_vt_hist.length + 1); i++)
+		{
+			
+			if (i == new_vt_hist.length - 1)
+			{
+				new_vt_hist[i] = vt_id;
+			}
+		}
+		vt_history = new_vt_hist;
 	}
 
-	// Creates 1-dimensional arrays that mimic MATLAB colon operator
+	// Creates 1-dimensional arrays that mimics MATLAB colon operator
 	private int[] setRange(int range)
 	{
 		int[] toReturn = new int[range];

@@ -1,10 +1,10 @@
-
+// if we already have odometry, I don't think this will be necessary
 public class Visual_Odometry 
 {
 	static final double PI = Math.PI;
 
-	int IMAGE_Y_SIZE = 100;		// Should be size of viddata
-	int IMAGE_X_SIZE = 100;		// Should be size of viddata
+	int IMAGE_Y_SIZE = 100;		
+	int IMAGE_X_SIZE = 100;	
 	
 	// Set up the visual odometry
 	double vrot = 0;
@@ -80,12 +80,12 @@ public class Visual_Odometry
 		// v- change image_vrot_y_range and image_Odo_x_range <- reinitialize
 		int[][] sub_image2 = {IMAGE_VROT_Y_RANGE, IMAGE_ODO_X_RANGE};
 
-		image_x_sums = null;
-		for (int z = 0; z < sub_image[1].length; z++)
+		//image_x_sums = null;
+		for (int z = 0; z < sub_image2[1].length; z++)
 		{
-			for (int z2 = 0; z2 < sub_image[0].length; z2++)
+			for (int z2 = 0; z2 < sub_image2[0].length; z2++)
 			{
-				image_x_sums[z] = sub_image[z2][z];
+				image_x_sums[z] = sub_image2[z2][z];
 			}
 		}
 		int avintSum = 0;
